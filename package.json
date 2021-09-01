@@ -1,0 +1,28 @@
+{
+  "name": "track-an-employee",
+  "version": "1.0.0",
+  "description": "challenge 12",
+  "main": "server.js",
+  "scripts": {
+    "test": "jest --verbose",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SalasD93/track-an-employee.git"
+  },
+  "author": "Diana Salas",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/SalasD93/track-an-employee/issues"
+  },
+  "homepage": "https://github.com/SalasD93/track-an-employee#readme",
+  "devDependencies": {
+    "inquirer": "^8.1.2",
+    "jest": "^27.1.0"
+  },
+  "dependencies": {
+    "console.table": "^0.10.0",
+    "mysql2": "^2.3.0"
+  }
+}
