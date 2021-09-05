@@ -17,11 +17,11 @@ class Database {
             // ALTER TABLE employee DROP INDEX (index)
         );
     };
-    // viewAllEmployeesByDepartment() {
-    //     return con.promise().query(
-    //         "SELECT employee.first_name, employee.last_name, department.name AS DEPARTMENT FROM employee JOIN role ON employee.role_id = role.id JOIN department ON role.department_id = department.id ORDER BY department.name;"
-    //     );
-    // };
+    viewAllEmployeesByDepartment() {
+        return con.promise().query(
+            "SELECT employee.first_name, employee.last_name, department.name AS DEPARTMENT FROM employee JOIN role ON employee.role_id = role.id JOIN department ON role.department_id = department.id ORDER BY department.name;"
+        );
+    };
     // viewAllEmployeesByManager() {
     //     return con.promise().query(
     //         "SELECT CONCAT(employee.first_name, ' ', 'employee.last_name') AS EMPLOYEE, role.title as ROLE, CONCAT(manager.first_name, ' ', manager.last_name) AS MANAGER FROM employee JOIN role ON role.id = employee.role_id LEFT JOIN employee manager ON manager.id = employee.manager_id WHERE employee.manager_id IS NOT NULL ORDER BY manager;"

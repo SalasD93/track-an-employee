@@ -107,15 +107,20 @@ function initPrompt() {
             // This lets the different answers for each member to be displayed accordingly
             switch (answers.employees) {
                 case 'View All Employees':
-                    // this.teamMembers.push(new Manager(name, id, email, extra));
                     return db.viewAllEmployees()
-                    .then(([rows]) => console.table(rows));
+                    .then(([rows]) => {
+                        console.table(rows)
+                        initPrompt();
+                    });
                 case 'View All Employees By Department':
-                    // this.teamMembers.push(new Engineer(name, id, email, extra));
-                    break;
+                    return db.viewAllEmployeesByDepartment()
+                    .then(([rows]) => {
+                        console.table(rows)
+                        initPrompt();
+                    });
                 case 'View All Employees By Manager':
-                    // this.teamMembers.push(new Intern(name, id, email, extra));
-                    break;
+                    // return db.viewAllEmployeesByManager()
+                    // .then(([rows]) => console.table(rows));
                 case 'View All Departments':
                     break;
                 case 'View All Roles':
@@ -130,7 +135,7 @@ function initPrompt() {
                     //       name: `${first_name} ${last_name}`,
                     //       value: id,
                     //     }));
-                    //     console.log(managerChoices);
+                    //     console.log(employeeChoices);
                     //   });
                     // return console.log('it worked');
                     break;
@@ -164,7 +169,7 @@ function initPrompt() {
                     // case 'Update Employee Role':
                     // return console.log("works");
             };
-            initPrompt();
+            // initPrompt();
         };
     })
     .catch(err => {
