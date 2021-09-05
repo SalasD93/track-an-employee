@@ -30,11 +30,7 @@ const db = new Database();
 
         // select name as manager where manager id =??
 
-
-
-// This is the class that holds the queries for the database
-
-
+// This function uses the Database class methods to produce tables based off user input
 function initPrompt() {
     prompt([
         {
@@ -56,6 +52,7 @@ function initPrompt() {
                 "Exit"
             ]
         },
+        // These create subcategories to reduce scrolling in prompt
         {
             type: "list",
             name: "employeeOpts",
@@ -98,79 +95,139 @@ function initPrompt() {
         //     when: ( answers ) => answers.employees === "Add Employee"
         // }
     ])
-    .then(( answers ) => {
-        if (answers.employees === "Exit") {
-            console.log(answers);
-            return con.end();
-        } else {
-            // ["View All Employees", "View All Employees By Department", "View All Employees By Manager", "Add Employee", "Remove Employee", "Update Employee Role", "Update Employee Manager", "Exit"]
-            // This lets the different answers for each member to be displayed accordingly
-            switch (answers.employees) {
-                case 'View All Employees':
-                    return db.viewAllEmployees()
-                    .then(([rows]) => {
-                        console.table(rows)
-                        initPrompt();
-                    });
-                case 'View All Employees By Department':
-                    return db.viewAllEmployeesByDepartment()
-                    .then(([rows]) => {
-                        console.table(rows)
-                        initPrompt();
-                    });
-                case 'View All Employees By Manager':
-                    // return db.viewAllEmployeesByManager()
-                    // .then(([rows]) => console.table(rows));
-                case 'View All Departments':
-                    break;
-                case 'View All Roles':
-                    break;
-                case 'View All Managers':
-                    break;
-                case 'Add Employee':
-                    // addEmployee(answers)
-                    // return db.addEmployee().then(([rows]) => {
-                    //     let employees = rows;
-                    //     const employeesChoices = employees.map(({ first_name, last_name,  }) => ({
-                    //       name: `${first_name} ${last_name}`,
-                    //       value: id,
-                    //     }));
-                    //     console.log(employeeChoices);
-                    //   });
-                    // return console.log('it worked');
-                    break;
-                case 'More Employee Options':
-                    switch (answers.employeeOpts) {
-                        case 'Update Employee Role':
-                            console.log("works");
-                            break;
+    .then((answers) => {
+        let deptArr = [];
+        let rolArr = [];
+        let manArr = [];
+        let empArr = [];
+        db.viewDepartments()
+        .then(([rows]) => {
+            let dept = rows;
+            console.log(rows);
+            const depts = dept.map(({ id, name }) => 
+            ({
+                name: name,
+                value: id
+            }));
+            deptArr = depts;
+            // console.log(deptArr);
+        });
+        db.viewRoles()
+        .then(([rows]) => {
+            let role = rows;
+            const roles = role.map(({ id, title }) => 
+            ({
+                name: title,
+                value: id
+            }));
+            rolArr = roles;
+        });
+        db.viewAllEmployees()
+        .then(([rows]) => {
+            let emp = rows;
+            const emps = emp.map(({ id, first_name, last_name}) => 
+            ({
+                name: `${first_name} ${last_name}`,
+                value: id,
+            }));
+            empArr = emps;
+        });
+        db.viewManagers()
+        .then(([rows]) => {
+            let man = rows;
+            const mans = man.map(({ id, first_name, last_name }) =>
+        ({
+            name: `${first_name} ${last_name}`,
+            value: id
+        }));
+        manArr = mans;
+    })
+        .then(() => {
+            if (answers.employees === "Exit") {
+                console.log(answers);
+                return con.end();
+            } else {
+                switch (answers.employees) {
+                    case 'View All Employees':
+                        return db.viewAllEmployees()
+                        .then(([rows]) => {
+                            console.table(rows)
+                            initPrompt();
+                        });
+                    case 'View All Employees By Department':
+                        return db.viewAllEmployeesByDepartment()
+                        .then(([rows]) => {
+                            console.table(rows)
+                            initPrompt();
+                        });
+                    case 'View All Employees By Manager':
+                        return db.viewAllEmployeesByManager()
+                        .then(([rows]) => {
+                            console.table(rows)
+                            initPrompt();
+                        });
+                    case 'View All Departments':
+                        return db.viewDepartments()
+                        .then(([rows]) => {
+                            console.table(rows);
+                            initPrompt();
+                        });
+                    case 'View All Roles':
+                        return db.viewRoles()
+                        .then(([rows]) => {
+                            console.table(rows)
+                            initPrompt();
+                        });
+                    case 'View All Managers':
+                        return db.viewManagers()
+                        .then(([rows]) => {
+                            console.table(rows)
+                            initPrompt();
+                        });
+                    case 'Add Employee':
+                        return db.addEmployee(rolArr, manArr).then(([rows]) => {
+                            console.table(rows);
+                            initPrompt();
+                        });
+                    case 'More Employee Options':
+                        switch (answers.employeeOpts) {
+                            case 'Remove Employee':
+                                console.log("works");
+                                break;
+                            case 'Update Employee Role':
+                                console.log("works");
+                                break;
+                            case 'Update Employee Manager':
+                                console.log("works");
+                                break;
+                            }
+                        break;
+                    case 'Department Options':
+                        switch (answers.deptOpts) {
+                            case 'Add Department':
+                                console.log("works");
+                                break;
+                            case 'Remove Department':
+                                break;
                         }
-                    break;
-                case 'Department Options':
-                    switch (answers.deptOpts) {
-                        case 'Add Department':
-                            console.log("works");
-                            break;
-                        case 'Remove Department':
-                            break;
-                    }
-                    break;
-                case 'Role Options':
-                    switch (answers.roleOpts) {
-                        case 'Add Role':
-                            console.log("works");
-                            break;
-                        case 'Update Role':
-                            break;
-                        case 'Remove Role':
-                            break;
-                    }
-                    break;
-                    // case 'Update Employee Role':
-                    // return console.log("works");
+                        break;
+                    case 'Role Options':
+                        switch (answers.roleOpts) {
+                            case 'Add Role':
+                                console.log("works");
+                                break;
+                            case 'Update Role':
+                                break;
+                            case 'Remove Role':
+                                break;
+                        }
+                        break;
+                        // case 'Update Employee Role':
+                        // return console.log("works");
+                };
+                // initPrompt();
             };
-            // initPrompt();
-        };
+        })
     })
     .catch(err => {
         console.log(err);
