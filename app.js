@@ -185,8 +185,8 @@ function initPrompt() {
                             initPrompt();
                         });
                     case 'Add Employee':
-                        return db.addEmployee(rolArr, manArr).then(([rows]) => {
-                            console.table(rows);
+                        return db.addEmployee(rolArr, manArr).then(([res]) => {
+                            console.log('Successfully added employee!');
                             initPrompt();
                         });
                     case 'More Employee Options':
@@ -205,8 +205,10 @@ function initPrompt() {
                     case 'Department Options':
                         switch (answers.deptOpts) {
                             case 'Add Department':
-                                console.log("works");
-                                break;
+                            return db.addNewDepartment().then(([res]) => {
+                                console.log('Successfully added department!');
+                                initPrompt();
+                            });
                             case 'Remove Department':
                                 break;
                         }

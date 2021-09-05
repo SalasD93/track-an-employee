@@ -42,22 +42,22 @@ class Database {
             "SELECT CONCAT(employee.first_name, ' ', employee.last_name) AS MANAGERS, employee.id FROM employee WHERE employee.manager_id IS NULL;"
         );
     };
-    // async addNewDepartment() {
-    //     let answers = await prompt([
-    //         {
-    //             type: 'input',
-    //             name: 'deptn',
-    //             message: 'Please input the name of the department.'
-    //         }
-    //     ]);
-    //     let newDepartment = await con.promise().query(
-    //         "INSERT INTO department SET ?;",
-    //         {
-    //             name: answers.deptn
-    //         }
-    //     );
-    //     return newDepartment;
-    // };
+    async addNewDepartment() {
+        let answers = await prompt([
+            {
+                type: 'input',
+                name: 'deptn',
+                message: 'Please input the name of the department.'
+            }
+        ]);
+        let newDepartment = await con.promise().query(
+            "INSERT INTO department SET ?;",
+            {
+                name: answers.deptn
+            }
+        );
+        return newDepartment;
+    };
     // deleteDepartment() {
     //     return con.promise().query(
     //         "DELETE FROM department WHERE department.id = ?",
