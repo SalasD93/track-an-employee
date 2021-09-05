@@ -108,7 +108,8 @@ function initPrompt() {
             switch (answers.employees) {
                 case 'View All Employees':
                     // this.teamMembers.push(new Manager(name, id, email, extra));
-                    break;
+                    return db.viewAllEmployees()
+                    .then(([rows]) => console.table(rows));
                 case 'View All Employees By Department':
                     // this.teamMembers.push(new Engineer(name, id, email, extra));
                     break;
@@ -136,13 +137,15 @@ function initPrompt() {
                 case 'More Employee Options':
                     switch (answers.employeeOpts) {
                         case 'Update Employee Role':
-                            return console.log("works");
+                            console.log("works");
+                            break;
                         }
                     break;
                 case 'Department Options':
                     switch (answers.deptOpts) {
                         case 'Add Department':
-                            return console.log("works");
+                            console.log("works");
+                            break;
                         case 'Remove Department':
                             break;
                     }
@@ -150,7 +153,8 @@ function initPrompt() {
                 case 'Role Options':
                     switch (answers.roleOpts) {
                         case 'Add Role':
-                            return console.log("works");
+                            console.log("works");
+                            break;
                         case 'Update Role':
                             break;
                         case 'Remove Role':
@@ -159,103 +163,10 @@ function initPrompt() {
                     break;
                     // case 'Update Employee Role':
                     // return console.log("works");
-            }
-            // if (answers.employees === "More Employee Options") {
-            //     switch (answers.employeeOpts) {
-            //         case 'Update Employee Role':
-            //             return console.log("works");
-            //         }
-            // }
-            // "View All Employees", 
-            //     "View All Employees By Department", 
-            //     "View All Employees By Manager", 
-            //     "View All Departments",
-            //     "View All Roles",
-            //     "View All Managers",
-            //     "Add Employee",
-            //     "More Employee Options",
-            //     "Department Options",
-            //     "Role Options",
-            //     "Exit"
-            // This restarts the questions after each set is answered
-            // return initPrompt();
-            return initPrompt();
-        }
-        // if (answers.employeeOpts) {
-        //     switch (answers.employeeOpts) {
-        //         case 'Update Employee Role':
-        //             return console.log("works");
-        //             // this.teamMembers.push(new Intern(name, id, email, extra));
-        //             // break;
-        //         case 'Update Employee Manager':
-        //             break;
-        //         case 'Remove Employee':
-        //             // this.teamMembers.push(new Intern(name, id, email, extra));
-        //             break;
-        //     }
-        //     return initPrompt();
-        // } else if (answers.deptOpts) {
-        //     switch (answers.deptOpts) {
-        //         case 'Add Department':
-        //             return console.log("works");
-        //         case 'Remove Department':
-        //             break;
-        //     }
-        //     return initPrompt();
-        // } else if (answers.roleOpts) {
-        //     switch (answers.roleOpts) {
-        //         case 'Add Role':
-        //             return console.log("works");
-        //         case 'Update Role':
-        //             break;
-        //         case 'Remove Role':
-        //             break;
-        //     }
-        //     return initPrompt();
-        // } else {
-        //     return initPrompt();
-        // }
+            };
+            initPrompt();
+        };
     })
-    // .then((answersC) => {return answersC})
-    // .then(( answersC ) => {
-    //     // if (answerss.employees === "Exit") {
-    //     //     console.log(answers);
-    //     //     return con.end();
-    //     // } else {
-    //         switch (answersC.employeeOpts) {
-    //             case 'Update Employee Role':
-    //                 return console.log("works");
-    //                 // this.teamMembers.push(new Intern(name, id, email, extra));
-    //                 // break;
-    //             case 'Update Employee Manager':
-    //                 break;
-    //             case 'Remove Employee':
-    //                 // this.teamMembers.push(new Intern(name, id, email, extra));
-    //                 break;
-    //         // }
-    //         // return initPrompt();
-    //     // } else if (answers.deptOpts) {
-    //     //     switch (answers.deptOpts) {
-    //     //         case 'Add Department':
-    //     //             return console.log("works");
-    //     //         case 'Remove Department':
-    //     //             break;
-    //     //     }
-    //     //     return initPrompt();
-    //     // } else if (answers.roleOpts) {
-    //     //     switch (answers.roleOpts) {
-    //     //         case 'Add Role':
-    //     //             return console.log("works");
-    //     //         case 'Update Role':
-    //     //             break;
-    //     //         case 'Remove Role':
-    //     //             break;
-    //     //     }
-    //     //     return initPrompt();
-    //     // } else {
-    //     //     return initPrompt();
-    //     }
-    // })
     .catch(err => {
         console.log(err);
     })
