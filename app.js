@@ -1,6 +1,7 @@
+const { prompt } = require('inquirer');
+const chalkAnimation = require('chalk-animation');
 const con = require('./config/connection');
 const Database = require('./db/index');
-const { prompt } = require('inquirer');
 const db = new Database();
 // WHEN I choose to add a department
 // THEN I am prompted to enter the name of the department and that department is added to the database
@@ -186,6 +187,8 @@ function initPrompt() {
                         });
                     case 'Add Employee':
                         return db.addEmployee(rolArr, manArr).then(([res]) => {
+                            // let success = chalkAnimation.pulse('Successfully added employee!', 2);
+                            // chalkAnimation.pulse('Successfully added employee!', 5);
                             console.log('Successfully added employee!');
                             initPrompt();
                         });
@@ -216,8 +219,10 @@ function initPrompt() {
                     case 'Role Options':
                         switch (answers.roleOpts) {
                             case 'Add Role':
-                                console.log("works");
-                                break;
+                                return db.addRoles(rolArr).then(([res]) => {
+                                    console.log('Successfully added role!');
+                                    initPrompt();
+                                });
                             case 'Update Role':
                                 break;
                             case 'Remove Role':

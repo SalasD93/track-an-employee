@@ -64,7 +64,34 @@ class Database {
 
     //     );
     // };
-    // addRoles() {};
+    async addRoles(rolArr) {
+        let answers = await prompt([
+            {
+                type: "input",
+                name: "title",
+                message: "Please enter the name of the role you would like to add."
+            },
+            {
+                type: "input",
+                name: "salary",
+                message: "Please input salary. (format: 40000)"
+            },
+            {
+                type: "input",
+                name: "deptID",
+                message: "Please input department ID."
+            }
+        ]);
+        let newRole = con.promise().query(
+            "INSERT INTO role SET ?",
+            {
+                title: answers.title,
+                salary: answers.salary,
+                department_id: answers.deptID
+            }
+        );
+        return newRole;
+    };
     // deleteRoles() {};
     async addEmployee(rolArr, manArr) {
         let answers = await prompt([
