@@ -104,7 +104,7 @@ function initPrompt() {
         db.viewDepartments()
         .then(([rows]) => {
             let dept = rows;
-            console.log(rows);
+            console.log(dept);
             const depts = dept.map(({ id, name }) => 
             ({
                 name: name,
@@ -116,6 +116,7 @@ function initPrompt() {
         db.viewRoles()
         .then(([rows]) => {
             let role = rows;
+            console.log(role);
             const roles = role.map(({ id, title }) => 
             ({
                 name: title,
@@ -198,11 +199,13 @@ function initPrompt() {
                                 console.log("works");
                                 break;
                             case 'Update Employee Role':
-                                console.log("works");
-                                break;
+                                return db.updateEmployeeRole(rolArr, empArr).then((res) => {
+                                    console.log("Successfully updated employee's role!");
+                                });
                             case 'Update Employee Manager':
-                                console.log("works");
-                                break;
+                                return db.updateEmployeeMan(manArr, empArr).then((res) => {
+                                    console.log("Successfully updated employee's role!");
+                                });
                             }
                         break;
                     case 'Department Options':
@@ -219,14 +222,17 @@ function initPrompt() {
                     case 'Role Options':
                         switch (answers.roleOpts) {
                             case 'Add Role':
-                                return db.addRoles(rolArr).then(([res]) => {
+                                return db.addRoles(rolArr).then((res) => {
                                     console.log('Successfully added role!');
                                     initPrompt();
                                 });
                             case 'Update Role':
                                 break;
-                            case 'Remove Role':
-                                break;
+                            // case 'Remove Role':
+                            //     return db.deleteRoles(rolArr).then((res) => {
+                            //         console.log('Successfully deleted role!');
+                            //         initPrompt();
+                            //     });
                         }
                         break;
                         // case 'Update Employee Role':
