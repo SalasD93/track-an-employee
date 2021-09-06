@@ -72,29 +72,9 @@ function initPrompt() {
             type: "list",
             name: "roleOpts",
             message: "Please select from the list of options.",
-            choices: ["Add Role", "Update Role", "Remove Role",],
+            choices: ["Add Role", "Remove Role",],
             when: (answers) => answers.employees === "Role Options"
         },
-        // {
-        //     type: "list",
-        //     name: "title",
-        //     message: "Please select the employee's role.",
-        //     choices: ["manArr"],
-        //     when: (answers) => answers.employees === "Add Employee"
-        // },
-        // {
-        //     type: "input",
-        //     name: "salary",
-        //     message: "Please enter the employee's salary. (format: 100000)",
-        //     when: ( answers ) => answers.employees === "Add Employee"
-        // },
-        // {
-        //     type: "list",
-        //     name: "name",
-        //     message: "Please select the employee's department.",
-        //     choices: ["customer service", "customer service1", "customer service2"],
-        //     when: ( answers ) => answers.employees === "Add Employee"
-        // }
     ])
     .then((answers) => {
         let deptArr = [];
@@ -218,7 +198,10 @@ function initPrompt() {
                                 initPrompt();
                             });
                             case 'Remove Department':
-                                break;
+                                return db.deleteRoles(deptArr).then((res) => {
+                                    console.log('Successfully deleted department!');
+                                    initPrompt();
+                                });
                         }
                         break;
                     case 'Role Options':

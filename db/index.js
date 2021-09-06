@@ -58,12 +58,19 @@ class Database {
         );
         return newDepartment;
     };
-    // deleteDepartment() {
-    //     return con.promise().query(
-    //         "DELETE FROM department WHERE department.id = ?",
-
-    //     );
-    // };
+    async deleteDepartment(deptArr) {
+        let answers = await prompt([
+            {
+                type: "list",
+                name: "deptD",
+                choices: deptArr
+            }
+        ]);
+        let delDept = await con.promise().query(
+            "DELETE FROM department WHERE `id` = ?", [answers.deptD]
+        );
+        return delDept;
+    };
     async addRoles(rolArr) {
         let answers = await prompt([
             {
