@@ -8,26 +8,26 @@ VALUES
 
 INSERT INTO role (title, salary, department_id)
 VALUES
-    ('Manager', 200000, 1),
-    ('Manager', 150000, 2),
-    ('Manager', 175000, 3),
-    ('Senior Developer', 100000, 1),
-    ('Senior Developer', 90000, 1),
-    ('Junior Developer', 70000, 2),
-    ('Junior Developer', 65000, 2),
-    ('Customer Support', 40000, 3),
-    ('Customer Support', 35000, 3),
+    ('Manager1', 200000, 1),
+    ('Manager2', 150000, 2),
+    ('Manager3', 175000, 3),
+    ('Senior Developer1', 100000, 1),
+    ('Senior Developer2', 90000, 1),
+    ('Junior Developer1', 70000, 2),
+    ('Junior Developer2', 65000, 2),
+    ('Customer Support1', 40000, 3),
+    ('Customer Support2', 35000, 3),
     ('Intern', 0, 2);
 
-INSERT INTO employee (first_name, last_name, role_id, manager_id)
+INSERT INTO employee (last_name, first_name, role_id, manager_id)
 VALUES   
     ('Yoda', 'Minch', 1, null),
-    ('Amidala', 'Padme', 1, null),
-    ('Kenobi', 'Obi', 1, null),
-    ('Organa', 'Leia', 2, 1),
-    ('Skywalker', 'Anakin', 2, 1),
-    ('Skywalker', 'Luke', 3, 2),
-    ('Ren', 'Kylo', 3, 2),
-    ('Calrissian', 'Lando', 4, 3),
-    ('Binks', 'Jar Jar', 4, 3),
-    ('Solo', 'Han', 5, 2);
+    ('Amidala', 'Padme', 2, null),
+    ('Kenobi', 'Obi', 3, null),
+    ('Organa', 'Leia', 4, 1),
+    ('Skywalker', 'Anakin', 5, 1),
+    ('Skywalker', 'Luke', 6, 2),
+    ('Ren', 'Kylo', 7, 2),
+    ('Calrissian', 'Lando', 8, 3),
+    ('Binks', 'Jar Jar', 9, 3),
+    ('Solo', 'Han', 10, 2);
