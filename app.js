@@ -5,6 +5,7 @@ const con = require('./config/connection');
 const Database = require('./db/index');
 const db = new Database();
 
+console.log(' _____                    _                           \n|  ___|                  | |                          \n| |__   _ __ ___   _ __  | |  ___   _   _   ___   ___ \n|  __| | \'_ ` _ \\ | \'_ \\ | | / _ \\ | | | | / _ \\ / _ \\\n| |___ | | | | | || |_) || || (_) || |_| ||  __/|  __/\n\\____/ |_| |_| |_|| .__/ |_| \\___/  \\__, | \\___| \\___|\n                  | |                __/ |            \n                  |_|               |___/             \n___  ___                                              \n|  \\/  |                                              \n| .  . |  __ _  _ __    __ _   __ _   ___  _ __       \n| |\\/| | / _` || \'_ \\  / _` | / _` | / _ \\| \'__|      \n| |  | || (_| || | | || (_| || (_| ||  __/| |         \n\\_|  |_/ \\__,_||_| |_| \\__,_| \\__, | \\___||_|         \n                               __/ |                  \n                              |___/        ');
 // This function uses the Database class methods to produce tables based off user input
 function initPrompt() {
     prompt([
