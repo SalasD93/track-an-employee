@@ -230,11 +230,11 @@ function initPrompt() {
                                 });
                             case 'Update Role':
                                 break;
-                            // case 'Remove Role':
-                            //     return db.deleteRoles(rolArr).then((res) => {
-                            //         console.log('Successfully deleted role!');
-                            //         initPrompt();
-                            //     });
+                            case 'Remove Role':
+                                return db.deleteRoles(rolArr).then((res) => {
+                                    console.log('Successfully deleted role!');
+                                    initPrompt();
+                                });
                         }
                         break;
                 };

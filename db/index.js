@@ -92,19 +92,19 @@ class Database {
         );
         return newRole;
     };
-    // async deleteRoles(rolArr) {
-    //     let answers = await prompt([
-    //         {
-    //             type: "list",
-    //             name: "roleD",
-    //             choices: rolArr
-    //         }
-    //     ]);
-    //     let delRole = await con.promise().query(
-    //         "DELETE FROM role WHERE `id` = ?", [answers.roleD]
-    //     );
-    //     return delRole;
-    // };
+    async deleteRoles(rolArr) {
+        let answers = await prompt([
+            {
+                type: "list",
+                name: "roleD",
+                choices: rolArr
+            }
+        ]);
+        let delRole = await con.promise().query(
+            "DELETE FROM role WHERE `id` = ?", [answers.roleD]
+        );
+        return delRole;
+    };
     async addEmployee(rolArr, manArr) {
         let answers = await prompt([
             {
