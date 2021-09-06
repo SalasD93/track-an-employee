@@ -181,7 +181,7 @@ function initPrompt() {
                                 initPrompt();
                             });
                             case 'Remove Department':
-                                return db.deleteRoles(deptArr).then((res) => {
+                                return db.deleteDepartment(deptArr).then((res) => {
                                     console.log('Successfully deleted department!');
                                     initPrompt();
                                 });

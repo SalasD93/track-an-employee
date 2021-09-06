@@ -24,7 +24,7 @@ class Database {
     };
     viewDepartments() {
         return con.promise().query(
-            "SELECT department.name AS DEPARTMENTS, department.id FROM department;"
+            "SELECT * FROM department;"
         );
     };
     viewRoles() {
@@ -60,6 +60,7 @@ class Database {
             {
                 type: "list",
                 name: "deptD",
+                message: "Please select the department.",
                 choices: deptArr
             }
         ]);
@@ -104,6 +105,7 @@ class Database {
             {
                 type: "list",
                 name: "roleD",
+                message: "Please select the role you want to delete.",
                 choices: rolArr
             }
         ]);
@@ -167,7 +169,7 @@ class Database {
         ]);
         let updateEmp = await con.promise().query
             (
-                "UPDATE employee SET `role_id` = ? WHERE `id` = ?", [answers.updEmpRol, answers.updateEmp]
+                "UPDATE employee SET `role_id` = ? WHERE `id` = ?", [answers.updEmpRol, answers.updEmp]
             );
         return updateEmp;
     };
