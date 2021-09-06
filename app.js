@@ -1,35 +1,9 @@
+// Required dependecies/modules
 const { prompt } = require('inquirer');
 const chalkAnimation = require('chalk-animation');
 const con = require('./config/connection');
 const Database = require('./db/index');
 const db = new Database();
-// WHEN I choose to add a department
-// THEN I am prompted to enter the name of the department and that department is added to the database
-// WHEN I choose to add a role
-// THEN I am prompted to enter the name, salary, and department for the role and that role is added to the database
-// WHEN I choose to add an employee
-// THEN I am prompted to enter the employee’s first name, last name, role, and manager and that employee is added to the database
-// WHEN I choose to update an employee role
-// THEN I am prompted to select an employee to update and their new role and this information is updated in the database 
-
-
-// what would you like to do
-// options: view all employees, add department, add role, add employee, update employee role
-    // show table????
-    // add department
-        // new Department()
-    // add role
-        // new Role()
-    // add employee
-    // pass over answers as arguments into
-        // db.addEmployee
-    // update employee role
-        // ????
-
-        // db.addRole()
-        // connection.query()
-
-        // select name as manager where manager id =??
 
 // This function uses the Database class methods to produce tables based off user input
 function initPrompt() {
@@ -77,26 +51,26 @@ function initPrompt() {
         },
     ])
     .then((answers) => {
+        // These arrays store table data objects once table information is called
         let deptArr = [];
         let rolArr = [];
         let manArr = [];
         let empArr = [];
+        // These add table information to related arrays
         db.viewDepartments()
         .then(([rows]) => {
             let dept = rows;
-            // console.log(dept);
             const depts = dept.map(({ id, name }) => 
             ({
                 name: name,
                 value: id
             }));
             deptArr = depts;
-            // console.log(deptArr);
         });
+
         db.viewRoles()
         .then(([rows]) => {
             let role = rows;
-            // console.log(role);
             const roles = role.map(({ id, title }) => 
             ({
                 name: title,
@@ -104,6 +78,7 @@ function initPrompt() {
             }));
             rolArr = roles;
         });
+
         db.viewAllEmployees()
         .then(([rows]) => {
             let emp = rows;
@@ -114,6 +89,7 @@ function initPrompt() {
             }));
             empArr = emps;
         });
+
         db.viewManagers()
         .then(([rows]) => {
             let man = rows;
@@ -125,14 +101,18 @@ function initPrompt() {
         manArr = mans;
     })
         .then(() => {
+            // This tells the program to stop running
             if (answers.employees === "Exit") {
-                console.log(answers);
                 return con.end();
             } else {
+                // This iterates through all the choices submitted in prompt / calls the associated methods
                 switch (answers.employees) {
                     case 'View All Employees':
+                        // Can use return instead of break for cases
                         return db.viewAllEmployees()
+                        // The [rows] takes in the information from the rows that were called in the related method
                         .then(([rows]) => {
+                            // console.table shows a table of the rendered rows
                             console.table(rows)
                             initPrompt();
                         });
@@ -167,11 +147,13 @@ function initPrompt() {
                             initPrompt();
                         });
                     case 'Add Employee':
+                        // Pass in arrays for method to use in class in db/index.js
                         return db.addEmployee(rolArr, manArr).then(([res]) => {
                             console.log('Successfully added employee!');
                             initPrompt();
                         });
                     case 'More Employee Options':
+                        // Can add a switch statement in a switch statment to keep information grouped together preventing promise issues
                         switch (answers.employeeOpts) {
                             case 'Remove Employee':
                                 return db.deleteEmployee(empArr).then((res) => {
@@ -189,7 +171,7 @@ function initPrompt() {
                                     initPrompt();
                                 });
                             }
-                        break;
+                    break;
                     case 'Department Options':
                         switch (answers.deptOpts) {
                             case 'Add Department':
@@ -203,7 +185,7 @@ function initPrompt() {
                                     initPrompt();
                                 });
                         }
-                        break;
+                    break;
                     case 'Role Options':
                         switch (answers.roleOpts) {
                             case 'Add Role':
@@ -211,21 +193,19 @@ function initPrompt() {
                                     console.log('Successfully added role!');
                                     initPrompt();
                                 });
-                            case 'Update Role':
-                                break;
                             case 'Remove Role':
                                 return db.deleteRoles(rolArr).then((res) => {
                                     console.log('Successfully deleted role!');
                                     initPrompt();
                                 });
                         }
-                        break;
+                    break;
                 };
             };
-        })
+        });
     })
     .catch(err => {
         console.log(err);
-    })
-}
+    });
+};
 initPrompt();
