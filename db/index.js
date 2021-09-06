@@ -1,20 +1,15 @@
-// create new class for all db stuff
-// export db
-// import connection with require
-// set up queries inside class
-    // findAll() uses connection to find query
-    // write out select in `` link in terminal connection.query(``)
-// db.add employee
-// write query to insert into
-// view all roles, add role, remove role
-const con  = require('../config/connection');
+// Needed dependencies / modules
 const { prompt } = require('inquirer');
-// This is the class that holds the queries for the database
+const con  = require('../config/connection');
+
+// This is class holds the queries for the database
 class Database {
+    // This is a class method to be called in app.js during certaing conditions
     viewAllEmployees() {
+        // .promise() makes this an async function so it can be called in app.js with .then() which allows it to be run at a specific time instead of on application start
         return con.promise().query(
+            // This is a query for mysql table
             "SELECT employee.id, employee.first_name, employee.last_name, role.title, department.name AS DEPARTMENT, role.salary, CONCAT(manager.first_name, ' ', manager.last_name) AS MANAGER FROM employee LEFT JOIN role on employee.role_id = role.id LEFT JOIN department on role.department_id = department.id LEFT JOIN employee manager on manager.id = employee.manager_id;"
-            // ALTER TABLE employee DROP INDEX (index)
         );
     };
     viewAllEmployeesByDepartment() {
@@ -42,6 +37,7 @@ class Database {
             "SELECT employee.first_name, employee.last_name, employee.id FROM employee WHERE employee.manager_id IS NULL;"
         );
     };
+    // This is an async method to be used with .then() when exported to allow process at a certain time / removes need for .then() now
     async addNewDepartment() {
         let answers = await prompt([
             {
@@ -58,6 +54,7 @@ class Database {
         );
         return newDepartment;
     };
+    // Pass in the array as an argument so it can be used in app.js when method is called there
     async deleteDepartment(deptArr) {
         let answers = await prompt([
             {
@@ -71,7 +68,9 @@ class Database {
         );
         return delDept;
     };
+
     async addRoles(rolArr) {
+        // This prompt gets the data values to be used in the tables
         let answers = await prompt([
             {
                 type: "input",
@@ -89,7 +88,7 @@ class Database {
                 message: "Please input department ID."
             }
         ]);
-        let newRole = con.promise().query(
+        let newRole = await con.promise().query(
             "INSERT INTO role SET ?",
             {
                 title: answers.title,
@@ -99,6 +98,7 @@ class Database {
         );
         return newRole;
     };
+
     async deleteRoles(rolArr) {
         let answers = await prompt([
             {
@@ -112,6 +112,7 @@ class Database {
         );
         return delRole;
     };
+
     async addEmployee(rolArr, manArr) {
         let answers = await prompt([
             {
@@ -148,6 +149,7 @@ class Database {
         );
         return newEmployee;
     };
+
     async updateEmployeeRole(rolArr, empArr) {
         let answers = await prompt([
             {
@@ -169,6 +171,7 @@ class Database {
             );
         return updateEmp;
     };
+
     async updateEmployeeMan(empArr, manArr) {
         let answers = await prompt([
             {
@@ -191,6 +194,7 @@ class Database {
             );
         return updMan;
     };
+
     async deleteEmployee(empArr) {
         let answers = await prompt([
             {
