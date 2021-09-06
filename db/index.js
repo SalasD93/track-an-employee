@@ -39,7 +39,7 @@ class Database {
     };
     viewManagers() {
         return con.promise().query(
-            "SELECT CONCAT(employee.first_name, ' ', employee.last_name) AS MANAGERS, employee.id FROM employee WHERE employee.manager_id IS NULL;"
+            "SELECT employee.first_name, employee.last_name, employee.id FROM employee WHERE employee.manager_id IS NULL;"
         );
     };
     async addNewDepartment() {
@@ -120,14 +120,14 @@ class Database {
             {
                 type: "list",
                 name: "roleid",
-                message: "Please select the role id.",
-                choices: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+                message: "Please select the employee's role id.",
+                choices: rolArr
             },
             {
                 type: "list",
                 name: "managerid",
-                message: "Please imput empoyee's manager's id.(Enter 'null' if manager).",
-                choices: ['null', 1, 2, 3]
+                message: "Please select employee's manager.",
+                choices: manArr
             },
         ]);
         let newEmployee = await con.promise().query(
@@ -138,8 +138,6 @@ class Database {
                 role_id: answers.roleid,
                 manager_id: answers.managerid
             }
-        // ).then(con.promise().query(
-        //     "SELECT employee.id, employee.first_name, employee.last_name, role.title, department.name AS DEPARTMENT, role.salary, CONCAT(manager.first_name, ' ', manager.last_name) AS MANAGER FROM employee LEFT JOIN role on employee.role_id = role.id LEFT JOIN department on role.department_id = department.id LEFT JOIN employee manager on manager.id = employee.manager_id;"
         );
         return newEmployee;
     };
@@ -151,11 +149,6 @@ class Database {
                 message: "Please select an employee.",
                 choices: empArr
             },
-            // {
-            //     type: "confirm",
-            //     name: "confUpdRol",
-            //     message: "Would you like to update the employee's role?"
-            // },
             {
                 type: "list",
                 name: "updEmpRol",
@@ -168,27 +161,6 @@ class Database {
                 "UPDATE employee SET `role_id` = ? WHERE `id` = ?", [answers.updEmpRol, answers.updateEmp]
             );
         return updateEmp;
-        // if (answers.updEmpRol) {
-        //     let updateEmp = await con.promise().query
-        //     (
-        //         "UPDATE employee SET `role_id` = ?WHERE `id` = ?", [answers.updEmpRol, answers.updateEmp]
-        //     );
-        //     return updateEmp;
-        // } else if (answers.updMan) {
-        //     let updMan = await con.promise().query
-        //     (
-        //         "UPDATE employee SET `manager_id` = ? WHERE `id` = ?", [answers.empMan, answers.updEmp]
-        //     );
-        //     return updMan;
-        // } else if (answers.updEmpRol && answers.updMan) {
-        //     let updateAllEmp = await con.promise().query
-        //     (
-        //         "UPDATE employee SET `role_id` = ?, `manager_id` = ? WHERE `id` = ?", [answers.updEmpRol, answers.empMan, answer.updEmp]
-        //     );
-        //     return updateAllEmp;
-        // } else {
-        //     console.log(err);
-        // }
     };
     async updateEmployeeMan(empArr, manArr) {
         let answers = await prompt([
@@ -198,11 +170,6 @@ class Database {
                 message: "Please select an employee.",
                 choices: empArr
             },
-            // {
-            //     type: "confirm",
-            //     name: "confUpdMan",
-            //     message: "Would you like to update the employee's manager?"
-            // },
             {
                 type: "list",
                 name: "empMan",
@@ -217,7 +184,20 @@ class Database {
             );
         return updMan;
     };
-    // deleteEmployee() {}
+    async deleteEmployee(empArr) {
+        let answers = await prompt([
+            {
+                type: "list",
+                name: "delEmp",
+                message: "Please choose the employee you want to remove.",
+                choices: empArr
+            },
+        ]);
+        let deleteEmployee = await con.promise().query(
+            "DELETE FROM employee WHERE `id` = ?", [answers.delEmp]
+        );
+        return deleteEmployee;
+    };
 }
 
 module.exports = Database;

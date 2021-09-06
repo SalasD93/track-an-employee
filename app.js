@@ -104,7 +104,7 @@ function initPrompt() {
         db.viewDepartments()
         .then(([rows]) => {
             let dept = rows;
-            console.log(dept);
+            // console.log(dept);
             const depts = dept.map(({ id, name }) => 
             ({
                 name: name,
@@ -116,7 +116,7 @@ function initPrompt() {
         db.viewRoles()
         .then(([rows]) => {
             let role = rows;
-            console.log(role);
+            // console.log(role);
             const roles = role.map(({ id, title }) => 
             ({
                 name: title,
@@ -188,23 +188,25 @@ function initPrompt() {
                         });
                     case 'Add Employee':
                         return db.addEmployee(rolArr, manArr).then(([res]) => {
-                            // let success = chalkAnimation.pulse('Successfully added employee!', 2);
-                            // chalkAnimation.pulse('Successfully added employee!', 5);
                             console.log('Successfully added employee!');
                             initPrompt();
                         });
                     case 'More Employee Options':
                         switch (answers.employeeOpts) {
                             case 'Remove Employee':
-                                console.log("works");
-                                break;
+                                return db.deleteEmployee(empArr).then((res) => {
+                                    console.log("Successfully removed employee!");
+                                    initPrompt();
+                                });
                             case 'Update Employee Role':
                                 return db.updateEmployeeRole(rolArr, empArr).then((res) => {
                                     console.log("Successfully updated employee's role!");
+                                    initPrompt();
                                 });
                             case 'Update Employee Manager':
-                                return db.updateEmployeeMan(manArr, empArr).then((res) => {
-                                    console.log("Successfully updated employee's role!");
+                                return db.updateEmployeeMan(empArr, manArr,).then((res) => {
+                                    console.log("Successfully updated employee's manager!");
+                                    initPrompt();
                                 });
                             }
                         break;
@@ -235,10 +237,7 @@ function initPrompt() {
                             //     });
                         }
                         break;
-                        // case 'Update Employee Role':
-                        // return console.log("works");
                 };
-                // initPrompt();
             };
         })
     })
